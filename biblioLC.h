@@ -1,9 +1,9 @@
 #ifndef BIBLIOLC
 #define BIBLIOLC
-#include "biblioLC.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 typedef struct livre {
     int num;

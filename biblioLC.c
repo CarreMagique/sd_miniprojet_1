@@ -2,6 +2,7 @@
 
 Livre* creer_livre(int num, char* titre, char* auteur){
     Livre* l = malloc(sizeof(Livre));
+    assert(l);
     l->num = num;
     l->titre = strdup(titre);
     l->auteur = strdup(auteur);
@@ -16,6 +17,7 @@ void liberer_livre(Livre* l) {
 
 Biblio* creer_biblio(){
     Biblio* b = malloc(sizeof(Biblio));
+    assert(b);
     b->L = NULL;
     return b;
 }
