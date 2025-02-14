@@ -10,6 +10,11 @@ biblioLC.o : biblioLC.c biblioLC.h
 entreeSortieLC.o : entreeSortieLC.c entreeSortieLC.h
 	gcc -Wall -c entreeSortieLC.c -ggdb -o entreeSortieLC.o
 
+biblioH.o : biblioH.c biblioH.h
+	gcc -Wall -c biblioH.c -ggdb -o biblioH.o
+
+entreeSortieH.o : entreeSortieH.c entreeSortieH.h
+	gcc -Wall -c entreeSortieH.c -ggdb -o entreeSortieH.o
 
 clean:
 	rm -rf *.o main
