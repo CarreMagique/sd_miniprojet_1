@@ -1,8 +1,9 @@
 #ifndef BIBLIOH
 #define BIBLIOH
-#include "biblio.h"
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+#include <math.h>
 
 typedef struct livreh {
     int clef;
@@ -22,5 +23,12 @@ int fonctionClef(char* auteur);
 LivreH* creer_livre(int num,char* titre,char* auteur);
 void liberer_livre(LivreH* l);
 BiblioH* creer_biblio(int m);
-void liberer biblio(BiblioH* b);
+void liberer_biblio(BiblioH* b);
+int fonctionHachage(int cle, int m);
+void inserer(BiblioH* b,int num,char* titre,char* auteur);
+LivreH* rechercher_num(LivreH* l, int num);
+BiblioH* rechercher_auteur(BiblioH* b, char* auteur);
+BiblioH* supprimer_livre(BiblioH* b, int num,char* titre,char* auteur);
+BiblioH* fusion(BiblioH *b1, BiblioH *b2);
+BiblioH* recherche_multiples(BiblioH *b);
 #endif
