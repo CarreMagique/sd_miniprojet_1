@@ -1,4 +1,4 @@
-#include "biblio.h"
+#include "biblioH.h"
 
 int fonctionClef(char* auteur) {
     int taille=strlen(auteur);
@@ -11,11 +11,13 @@ int fonctionClef(char* auteur) {
 
 LivreH* creer_livre(int num,char* titre,char* auteur) {
     LivreH *l=(LivreH *)malloc(sizeof(LivreH));
+    assert(l);
     l->num=num;
     l->titre=strdup(titre);
     l->auteur=strdup(auteur);
     l->clef=fonctionClef(l->auteur);
     l->suivant=NULL;
+    return l;
 }
 
 void liberer_livre(LivreH* l) {
@@ -26,6 +28,7 @@ void liberer_livre(LivreH* l) {
 
 BiblioH* creer_biblio(int m) {
     BiblioH* b=(BiblioH *)malloc(sizeof(BiblioH));
+    assert(b);
     b->m=m;
     b->nE=0;
     b->T=(LivreH **)malloc(sizeof(LivreH *)*m);
@@ -48,40 +51,40 @@ void liberer_biblio(BiblioH* b) {
 
 int fonctionHachage(int cle, int m) {
     double A=(sqrt(5)-1)/2.0;
-    int h=(int) (m*(cle*A - (int)(cle*A)))
+    int h=(int) (m*(cle*A - (int)(cle*A)));
     return h;
 }
 
 void inserer(BiblioH* b,int num,char* titre,char* auteur) {
     LivreH * l=creer_livre(num,titre,auteur);
-    int h=fonctionHachage(l->cle,b->m);
+    int h=fonctionHachage(l->clef,b->m);
 
     LivreH *tete=b->T[h];
     b->nE++;
     l->suivant=tete;
 }
 
-Livre* rechercher_num(Livre* l, int num) {
+LivreH* rechercher_num(LivreH* l, int num) {
     while(l && l->num!=num) {
-        l=l->suiv;
+        l=l->suivant;
     }
     if(l) {return l;}
     return NULL;
 }
 
-Livre* rechercher_titre(Livre* l, char *titre) {
+LivreH* rechercher_titre(LivreH* l, char *titre) {
     while(l && strcmp(titre,l->titre)==0) {
-        l=l->suiv;
+        l=l->suivant;
     }
     if(l) {return l;}
     return NULL;
 }
 
-Biblio* rechercher_auteur(Biblio* b, char* auteur){
-    Biblio* r = creer_biblio(1);
+BiblioH* rechercher_auteur(BiblioH* b, char* auteur){
+    BiblioH* r = creer_biblio(1);
 
     int h=fonctionHachage(fonctionClef(auteur),b->m);
-    Livre* parcours = b->T[h];
+    LivreH* parcours = b->T[h];
     r->T[0]=parcours;
     /*
     while(parcours){
@@ -94,24 +97,24 @@ Biblio* rechercher_auteur(Biblio* b, char* auteur){
     return r;
 }
 
-Biblio* supprimer_livre(Biblio* b, int num,char* titre,char* auteur){
+BiblioH* supprimer_livre(BiblioH* b, int num,char* titre,char* auteur){
     int h=fonctionHachage(fonctionClef(auteur),b->m);
-    Livre* parcours = b->T[h];
+    LivreH* parcours = b->T[h];
     if(parcours==NULL){
         return b;
     }
     if(parcours->num!=num && strcmp(parcours->titre, titre)==0){
-        b->L = parcours->suiv;
+        b->T[h] = parcours->suivant;
         liberer_livre(parcours);
         b->nE--;
         return b;
     }
-    while(parcours->suiv!=NULL && parcours->suiv->num!=num && strcmp(parcours->suiv->titre, titre)==0){
-        parcours = parcours->suiv;
+    while(parcours->suivant!=NULL && parcours->suivant->num!=num && strcmp(parcours->suivant->titre, titre)==0){
+        parcours = parcours->suivant;
     }
-    if(parcours->suiv){
-        Livre* temp = parcours->suiv;
-        parcours->suiv= parcours->suiv->suiv;
+    if(parcours->suivant){
+        LivreH* temp = parcours->suivant;
+        parcours->suivant= parcours->suivant->suivant;
         liberer_livre(temp);
         b->nE--;
         return b;
@@ -119,10 +122,10 @@ Biblio* supprimer_livre(Biblio* b, int num,char* titre,char* auteur){
     return b;
 }
 
-Biblio* fusion(Biblio *b1, Biblio *b2) {
+BiblioH* fusion(BiblioH *b1, BiblioH *b2) {
         
     for(int i=0; i<b2->m;i++) {
-        Livre* l = b2->T[i];
+        LivreH* l = b2->T[i];
         while(l){
             inserer(b1, l->num, l->titre, l->auteur);
             l = l->suivant;
@@ -132,31 +135,30 @@ Biblio* fusion(Biblio *b1, Biblio *b2) {
     return b1;
 }
 
-Biblio* recherche_multiples(Biblio *b) {
-    Livre *l=b->L;
-    Biblio *bib = creer_biblio();
+BiblioH* recherche_multiples(BiblioH *b) {
+    BiblioH *bib = creer_biblio(b->m);
     int unique=1;
 
     for(int i = 0; i<b->m; i++){
-        Livre* l = b->T[i];
+        LivreH* l = b->T[i];
         unique=1;
         while(l){
-            Livre *l2=l->suiv;
+            LivreH *l2=l->suivant;
             while(l2) {
                 if(strcmp(l->titre,l2->titre)==0 && strcmp(l->auteur,l2->auteur)==0) {
-                    inserer_en_tete(bib,l2->num,l2->titre,l2->auteur);
-                    Livre *temp=l2;
-                    l2=l2->suiv;
+                    inserer(bib,l2->num,l2->titre,l2->auteur);
+                    LivreH *temp=l2;
+                    l2=l2->suivant;
                     liberer_livre(temp);
                     unique=0;
                 } else {
-                    l2=l2->suiv;
+                    l2=l2->suivant;
                 }
             }
             if(unique==0) {
-                inserer_en_tete(bib,l->num,l->titre,l->auteur);
+                inserer(bib,l->num,l->titre,l->auteur);
             }
-            l=l->suiv;
+            l=l->suivant;
         }
     }
     
