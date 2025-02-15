@@ -5,7 +5,7 @@ BiblioH* charger_n_entrees_h(char* nomfic, int n) {
     char buffer[100];
     char titre[40];
     char auteur[40];
-    BiblioH *b=creer_biblio(n);
+    BiblioH *b=creer_biblio_h(n);
     int num;
     int i=0;
     while(i!=n && fgets(buffer,100,f)) {
@@ -18,7 +18,7 @@ BiblioH* charger_n_entrees_h(char* nomfic, int n) {
     return b;
 }
 
-void affichage_livre(LivreH* l){
+void affichage_livre_h(LivreH* l){
     printf("%d %s %s\n", l->num, l->titre, l->auteur);
 }
 
@@ -42,7 +42,7 @@ void affichage_biblio_h(BiblioH* b) {
     for(int i=0; i<b->m; i++) {
         l=b->T[i];
         while(l) {
-            affichage_livre(l);
+            affichage_livre_h(l);
             l=l->suivant;
         }
     }

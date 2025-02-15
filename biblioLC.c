@@ -39,7 +39,8 @@ void inserer_en_tete(Biblio* b,int num,char* titre,char* auteur){
     b->L = l;
 }
 
-Livre* rechercher_num(Livre* l, int num) {
+Livre* rechercher_num(Biblio* b, int num) {
+    Livre* l=b->L;
     while(l && l->num!=num) {
         l=l->suiv;
     }
@@ -47,8 +48,14 @@ Livre* rechercher_num(Livre* l, int num) {
     return NULL;
 }
 
+<<<<<<< HEAD
 Livre* rechercher_titre(Livre* l, char *titre) {
     while(l && strcmp(titre,l->titre)!=0) {
+=======
+Livre* rechercher_titre(Biblio* b, char *titre) {
+    Livre *l=b->L;
+    while(l && strcmp(titre,l->titre)==0) {
+>>>>>>> origin/mateo
         l=l->suiv;
     }
     if(l) {return l;}
