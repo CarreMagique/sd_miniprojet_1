@@ -59,9 +59,9 @@ void inserer(BiblioH* b,int num,char* titre,char* auteur) {
     LivreH * l=creer_livre_h(num,titre,auteur);
     int h=fonctionHachage(l->clef,b->m);
 
-    LivreH *tete=b->T[h];
+    l->suivant=b->T[h];
+    b->T[h]=l;
     b->nE++;
-    l->suivant=tete;
 }
 
 LivreH* rechercher_num_h(BiblioH* b, int num) {
@@ -100,14 +100,14 @@ BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur){
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
     r->T[0]=parcours;
-    /*
+    
     while(parcours){
         if(strcmp(parcours->auteur,auteur)==0){
-            inserer_en_tete(r, parcours->num, parcours->titre, parcours->auteur);
+            inserer(r, parcours->num, parcours->titre, parcours->auteur);
         }
-        parcours = parcours ->suiv;
+        parcours = parcours ->suivant;
     }
-    */
+    
     return r;
 }
 
@@ -123,7 +123,7 @@ BiblioH* supprimer_livre_h(BiblioH* b, int num,char* titre,char* auteur){
         b->nE--;
         return b;
     }
-    while(parcours->suivant!=NULL && parcours->suivant->num!=num && strcmp(parcours->suivant->titre, titre)==0){
+    while(parcours->suivant!=NULL && parcours->suivant->num!=num && strcmp(parcours->suivant->titre, titre)!=0){
         parcours = parcours->suivant;
     }
     if(parcours->suivant){
