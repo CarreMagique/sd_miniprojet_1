@@ -9,7 +9,7 @@ int fonctionClef(char* auteur) {
     return tot;
 }
 
-LivreH* creer_livre(int num,char* titre,char* auteur) {
+LivreH* creer_livre_h(int num,char* titre,char* auteur) {
     LivreH *l=(LivreH *)malloc(sizeof(LivreH));
     assert(l);
     l->num=num;
@@ -20,13 +20,13 @@ LivreH* creer_livre(int num,char* titre,char* auteur) {
     return l;
 }
 
-void liberer_livre(LivreH* l) {
+void liberer_livre_h(LivreH* l) {
     free(l->titre);
     free(l->auteur);
     free(l);
 }
 
-BiblioH* creer_biblio(int m) {
+BiblioH* creer_biblio_h(int m) {
     BiblioH* b=(BiblioH *)malloc(sizeof(BiblioH));
     assert(b);
     b->m=m;
@@ -35,14 +35,14 @@ BiblioH* creer_biblio(int m) {
     return b;
 }
 
-void liberer_biblio(BiblioH* b) {
+void liberer_biblio_h(BiblioH* b) {
     LivreH *temp, *l;
     for(int i=0; i<b->m; i++) {
         l=b->T[i];
         while(l) {
             temp=l;
             l=l->suivant;
-            liberer_livre(temp);
+            liberer_livre_h(temp);
         }
     }
     free(b->T);
@@ -56,7 +56,7 @@ int fonctionHachage(int cle, int m) {
 }
 
 void inserer(BiblioH* b,int num,char* titre,char* auteur) {
-    LivreH * l=creer_livre(num,titre,auteur);
+    LivreH * l=creer_livre_h(num,titre,auteur);
     int h=fonctionHachage(l->clef,b->m);
 
     LivreH *tete=b->T[h];
@@ -64,24 +64,38 @@ void inserer(BiblioH* b,int num,char* titre,char* auteur) {
     l->suivant=tete;
 }
 
-LivreH* rechercher_num(LivreH* l, int num) {
-    while(l && l->num!=num) {
-        l=l->suivant;
+LivreH* rechercher_num_h(BiblioH* b, int num) {
+    for(int i=0; i<b->m;i++) {
+        LivreH *l=b->T[i];
+        while(l && l->num!=num) {
+            l=l->suivant;
+        }
+
+        if(l) {
+            return l;
+        }
     }
-    if(l) {return l;}
+    
     return NULL;
 }
 
-LivreH* rechercher_titre(LivreH* l, char *titre) {
-    while(l && strcmp(titre,l->titre)==0) {
-        l=l->suivant;
+LivreH* rechercher_titre_h(BiblioH* b, char *titre) {
+    for(int i=0; i<b->m;i++) {
+        LivreH *l=b->T[i];
+        while(l && strcmp(titre,l->titre)!=0) {
+            l=l->suivant;
+        }
+
+        if(l) {
+            return l;
+        }
     }
-    if(l) {return l;}
+    
     return NULL;
 }
 
-BiblioH* rechercher_auteur(BiblioH* b, char* auteur){
-    BiblioH* r = creer_biblio(1);
+BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur){
+    BiblioH* r = creer_biblio_h(1);
 
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
@@ -97,7 +111,7 @@ BiblioH* rechercher_auteur(BiblioH* b, char* auteur){
     return r;
 }
 
-BiblioH* supprimer_livre(BiblioH* b, int num,char* titre,char* auteur){
+BiblioH* supprimer_livre_h(BiblioH* b, int num,char* titre,char* auteur){
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
     if(parcours==NULL){
@@ -105,7 +119,7 @@ BiblioH* supprimer_livre(BiblioH* b, int num,char* titre,char* auteur){
     }
     if(parcours->num!=num && strcmp(parcours->titre, titre)==0){
         b->T[h] = parcours->suivant;
-        liberer_livre(parcours);
+        liberer_livre_h(parcours);
         b->nE--;
         return b;
     }
@@ -115,14 +129,14 @@ BiblioH* supprimer_livre(BiblioH* b, int num,char* titre,char* auteur){
     if(parcours->suivant){
         LivreH* temp = parcours->suivant;
         parcours->suivant= parcours->suivant->suivant;
-        liberer_livre(temp);
+        liberer_livre_h(temp);
         b->nE--;
         return b;
     }
     return b;
 }
 
-BiblioH* fusion(BiblioH *b1, BiblioH *b2) {
+BiblioH* fusion_h(BiblioH *b1, BiblioH *b2) {
         
     for(int i=0; i<b2->m;i++) {
         LivreH* l = b2->T[i];
@@ -131,12 +145,12 @@ BiblioH* fusion(BiblioH *b1, BiblioH *b2) {
             l = l->suivant;
         }
     }
-    liberer_biblio(b2);
+    liberer_biblio_h(b2);
     return b1;
 }
 
-BiblioH* recherche_multiples(BiblioH *b) {
-    BiblioH *bib = creer_biblio(b->m);
+BiblioH* recherche_multiples_h(BiblioH *b) {
+    BiblioH *bib = creer_biblio_h(b->m);
     int unique=1;
 
     for(int i = 0; i<b->m; i++){
@@ -149,7 +163,7 @@ BiblioH* recherche_multiples(BiblioH *b) {
                     inserer(bib,l2->num,l2->titre,l2->auteur);
                     LivreH *temp=l2;
                     l2=l2->suivant;
-                    liberer_livre(temp);
+                    liberer_livre_h(temp);
                     unique=0;
                 } else {
                     l2=l2->suivant;

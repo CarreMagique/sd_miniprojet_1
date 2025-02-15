@@ -20,15 +20,16 @@ typedef struct table {
 } BiblioH;
 
 int fonctionClef(char* auteur);
-LivreH* creer_livre(int num,char* titre,char* auteur);
-void liberer_livre(LivreH* l);
-BiblioH* creer_biblio(int m);
-void liberer_biblio(BiblioH* b);
+LivreH* creer_livre_h(int num,char* titre,char* auteur);
+void liberer_livre_h(LivreH* l);
+BiblioH* creer_biblio_h(int m);
+void liberer_biblio_h(BiblioH* b);
 int fonctionHachage(int cle, int m);
 void inserer(BiblioH* b,int num,char* titre,char* auteur);
-LivreH* rechercher_num(LivreH* l, int num);
-BiblioH* rechercher_auteur(BiblioH* b, char* auteur);
-BiblioH* supprimer_livre(BiblioH* b, int num,char* titre,char* auteur);
-BiblioH* fusion(BiblioH *b1, BiblioH *b2);
-BiblioH* recherche_multiples(BiblioH *b);
+LivreH* rechercher_num_h(BiblioH* b, int num);
+LivreH* rechercher_titre_h(BiblioH* b, char *titre);
+BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur);
+BiblioH* supprimer_livre_h(BiblioH* b, int num,char* titre,char* auteur);
+BiblioH* fusion_h(BiblioH *b1, BiblioH *b2);
+BiblioH* recherche_multiples_h(BiblioH *b);
 #endif
