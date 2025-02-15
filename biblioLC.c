@@ -48,7 +48,7 @@ Livre* rechercher_num(Livre* l, int num) {
 }
 
 Livre* rechercher_titre(Livre* l, char *titre) {
-    while(l && strcmp(titre,l->titre)==0) {
+    while(l && strcmp(titre,l->titre)!=0) {
         l=l->suiv;
     }
     if(l) {return l;}

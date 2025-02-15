@@ -14,6 +14,8 @@ void menu(){
 
 int main(int argc, char** argv) {
     Biblio* b = creer_biblio();
+    Biblio* b2 = NULL;
+    Livre* l = NULL;
     int buf = -1;
     while(buf!=0){
         char b1[100];
@@ -40,15 +42,49 @@ int main(int argc, char** argv) {
             printf("Veuillez entrer un numéro : ");
             fgets(b1, 100, stdin);
             sscanf(b1, "%d", &numero);
-            affichage_livre(rechercher_num(b->L, numero));
+            l = rechercher_num(b->L, numero);
+            if(l){
+                affichage_livre(l);
+            }else{
+                printf("Livre non trouvé\n");
+            }
             break;
         case 4:
             printf("Veuillez entrer un titre : ");
             fgets(b1, 100, stdin);
             sscanf(b1, "%s", titre);
-            affichage_livre(rechercher_titre(b->L, titre));
+            l = rechercher_titre(b->L, titre);
+            if(l){
+                affichage_livre(l);
+            }else{
+                printf("Livre non trouvé\n");
+            }
+            break;
+        case 5:
+            printf("Veuillez entrer un auteur : ");
+            fgets(b1, 100, stdin);
+            sscanf(b1, "%s", auteur);
+            b2 = rechercher_auteur(b, auteur);
+            if(b2 && b2->L != NULL){
+                affichage_biblio(b2);
+            }else{
+                printf("Auteur non trouvé\n");
+            }
+            break;
+
+        case 6:
+            printf("Veuillez entrer un numéro, un titre et un auteur : ");
+            fgets(b1, 100, stdin);
+            sscanf(b1, "%d %s %s", &numero,titre, auteur);
+            supprimer_livre(b, numero, titre, auteur);
+            break;
+        case 7:
+            b2 = recherche_multiples(b);
+            affichage_biblio(b2);
             break;
         }
+
+
     }
     return 0;
 }
