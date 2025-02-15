@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
             printf("Veuillez entrer un numéro : ");
             fgets(b1, 100, stdin);
             sscanf(b1, "%d", &numero);
-            l = rechercher_num(b->L, numero);
+            l = rechercher_num(b, numero);
             if(l){
                 affichage_livre(l);
             }else{

@@ -48,14 +48,8 @@ Livre* rechercher_num(Biblio* b, int num) {
     return NULL;
 }
 
-<<<<<<< HEAD
 Livre* rechercher_titre(Livre* l, char *titre) {
     while(l && strcmp(titre,l->titre)!=0) {
-=======
-Livre* rechercher_titre(Biblio* b, char *titre) {
-    Livre *l=b->L;
-    while(l && strcmp(titre,l->titre)==0) {
->>>>>>> origin/mateo
         l=l->suiv;
     }
     if(l) {return l;}

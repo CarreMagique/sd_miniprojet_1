@@ -21,13 +21,8 @@ void liberer_livre(Livre* l);
 Biblio* creer_biblio();
 void liberer_biblio(Biblio* b);
 void inserer_en_tete(Biblio* b,int num,char* titre,char* auteur);
-<<<<<<< HEAD
-Livre* rechercher_num(Livre* l, int num);
-Livre* rechercher_titre(Livre* l, char *titre);
-=======
 Livre* rechercher_num(Biblio* b, int num);
-Livre* rechercher_titre(Biblio* b, char *titre);
->>>>>>> origin/mateo
+Livre* rechercher_titre(Livre* l, char *titre);
 Biblio* rechercher_auteur(Biblio* b, char* auteur);
 Biblio* supprimer_livre(Biblio* b, int num,char* titre,char* auteur);
 Biblio* fusion(Biblio *b1, Biblio *b2);
