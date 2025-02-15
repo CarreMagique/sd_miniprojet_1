@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
             printf("Veuillez entrer un numéro, un titre et un auteur : ");
             fgets(b1, 100, stdin);
             sscanf(b1, "%d %s %s", &numero,titre, auteur);
-            supprimer_livre(b, numero, titre, auteur);
+            b = supprimer_livre(b, numero, titre, auteur);
             break;
         case 7:
             b2 = recherche_multiples(b);
