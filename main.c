@@ -16,7 +16,9 @@ int main(int argc, char** argv) {
     int buf = -1;
     while(buf!=0){
         menu();
-        scanf("%d", &buf);
+        char saisie[20];
+        fgets(saisie, 20, stdin);
+        sscanf(saisie, "%d", &buf);
         switch(buf){
         case 1:
             affichage_biblio(b);
@@ -28,8 +30,8 @@ int main(int argc, char** argv) {
             char nom[100];
             
             char auteur[100];
-            
-            while(*(fgets(b1, 100, stdin))!='\n') {}
+            fflush (stdout);
+            fgets(b1, 100, stdin);
             sscanf(b1, "%s %d %s", nom, &numero, auteur);
             inserer_en_tete(b, numero, nom, auteur);
         
