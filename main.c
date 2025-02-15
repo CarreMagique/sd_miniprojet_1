@@ -11,12 +11,17 @@ void menu(){
     printf("7-Recherche ouvrage même exemplaire\n"); 
 }
 
+
 int main(int argc, char** argv) {
     Biblio* b = creer_biblio();
     int buf = -1;
     while(buf!=0){
-        menu();
+        char b1[100];
+        int numero;
+        char titre[100];
+        char auteur[100];
         char saisie[20];
+        menu();
         fgets(saisie, 20, stdin);
         sscanf(saisie, "%d", &buf);
         switch(buf){
@@ -25,16 +30,24 @@ int main(int argc, char** argv) {
             break;
         case 2:
             printf("Veuillez entrer un numéro, un titre et un auteur : ");
-            int numero;
-            char b1[100];
-            char nom[100];
-            
-            char auteur[100];
-            fflush (stdout);
+
             fgets(b1, 100, stdin);
-            sscanf(b1, "%s %d %s", nom, &numero, auteur);
-            inserer_en_tete(b, numero, nom, auteur);
-        
+            sscanf(b1, "%d %s %s", &numero,titre, auteur);
+            inserer_en_tete(b, numero, titre, auteur);
+            printf("Insertion avec succès !\n");
+            break;
+        case 3:
+            printf("Veuillez entrer un numéro : ");
+            fgets(b1, 100, stdin);
+            sscanf(b1, "%d", &numero);
+            affichage_livre(rechercher_num(b->L, numero));
+            break;
+        case 4:
+            printf("Veuillez entrer un titre : ");
+            fgets(b1, 100, stdin);
+            sscanf(b1, "%s", titre);
+            affichage_livre(rechercher_titre(b->L, titre));
+            break;
         }
     }
     return 0;
