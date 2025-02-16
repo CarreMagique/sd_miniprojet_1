@@ -31,7 +31,10 @@ BiblioH* creer_biblio_h(int m) {
     assert(b);
     b->m=m;
     b->nE=0;
-    b->T=(LivreH **)malloc(sizeof(LivreH *)*m);
+    b->T=(LivreH **)malloc(sizeof(LivreH *)*b->m);
+    for(int i=0; i<b->m; i++) {
+        b->T[i]=NULL;
+    }
     return b;
 }
 
