@@ -27,7 +27,7 @@ void compare(FILE *finit, FILE *fnum, FILE *ftitre, FILE *fauteur, int n) {
     clock_t cherche_num4=clock();
 
     clock_t cherche_titre1=clock();
-    Livre *l3=rechercher_titre(b1, "cmro");
+    Livre *l3=rechercher_titre(b1->L, "cmro");
     clock_t cherche_titre2=clock();
 
     clock_t cherche_titre3=clock();
