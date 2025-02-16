@@ -1,4 +1,4 @@
-all : main
+all : main main_compare
 
 main : biblioLC.o entreeSortieLC.o main.c
 	gcc -Wall -c main.c -ggdb -o main.o
