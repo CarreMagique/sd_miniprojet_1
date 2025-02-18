@@ -5,7 +5,7 @@ BiblioH* charger_n_entrees_h(char* nomfic, int n) {
     char buffer[100];
     char titre[40];
     char auteur[40];
-    BiblioH *b=creer_biblio_h(n);
+    BiblioH *b=creer_biblio_h(17);
     int num;
     int i=0;
     while(i!=n && fgets(buffer,100,f)) {

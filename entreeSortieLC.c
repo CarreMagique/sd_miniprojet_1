@@ -1,20 +1,28 @@
 #include "entreeSortieLC.h"
+#include <stdio.h>
 
 Biblio* charger_n_entrees(char* nomfic, int n) {
-    FILE *f = fopen(nomfic, "r");
-    char buffer[100];
-    char titre[40];
-    char auteur[40];
+    FILE *f = (FILE *) fopen(nomfic, "r");
+    assert(f);
     Biblio *b=creer_biblio();
     int num;
     int i=0;
-    while(i!=n && fgets(buffer,100,f)) {
-        sscanf(buffer, "%d %s %s", &num, titre, auteur);
+    char buffer[100];
+    char titre[20];
+    char auteur[20];
+    while(fgets(buffer,100,f) && i!=n) {
+        sscanf(buffer, "%d %19s %19s", &num, titre, auteur);
         inserer_en_tete(b,num,titre,auteur);
         i++;
     }
+    
+    /*/
+    while(i!=n && fscanf(f, "%d %19s %19s \n", &num, titre, auteur)) {
+        inserer_en_tete(b,num,titre,auteur);
+        i++;
+    }
+    */
     fclose(f);
-
     return b;
 }
 
