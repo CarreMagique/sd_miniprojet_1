@@ -102,7 +102,6 @@ BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur){
 
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
-    r->T[0]=parcours;
     
     while(parcours){
         if(strcmp(parcours->auteur,auteur)==0){

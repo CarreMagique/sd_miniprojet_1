@@ -1,5 +1,5 @@
-plot "sortie_num.txt" using 1:2 title "Liste chainee" with lines
-replot "sortie_num.txt" using 1:3 title "Table hachage" with lines
+plot "sortie_init.txt" using 1:2 title "Liste chainee" with lines
+replot "sortie_init.txt" using 1:3 title "Table hachage" with lines
 set term postscript portrait
 set output "courbes_init.ps"
 set size 0.7, 0.7
