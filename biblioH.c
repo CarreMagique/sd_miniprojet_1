@@ -68,6 +68,7 @@ void inserer(BiblioH* b,int num,char* titre,char* auteur) {
 }
 
 LivreH* rechercher_num_h(BiblioH* b, int num) {
+/*Nous sommes obliges de parcourir toute la table, car nous ne pouvons avoir la cle qu'a partir du nom de l'auteur*/
     for(int i=0; i<b->m;i++) {
         LivreH *l=b->T[i];
         while(l && l->num!=num) {
@@ -83,6 +84,7 @@ LivreH* rechercher_num_h(BiblioH* b, int num) {
 }
 
 LivreH* rechercher_titre_h(BiblioH* b, char *titre) {
+/*Nous sommes obliges de parcourir toute la table, car nous ne pouvons avoir la cle qu'a partir du nom de l'auteur*/
     for(int i=0; i<b->m;i++) {
         LivreH *l=b->T[i];
         while(l && strcmp(titre,l->titre)!=0) {
@@ -99,7 +101,8 @@ LivreH* rechercher_titre_h(BiblioH* b, char *titre) {
 
 BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur){
     BiblioH* r = creer_biblio_h(1);
-
+/*Avec le nom de l'auteur, nous pouvons trouver beaucoup plus rapidemeent l'ensemble de ses livres*/
+/*Il faut tout de même vérifier que ces livres ont le bon auteur, car la table ayant une taille limitee peut avoir plusieurs auteur au meme indice*/
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
     
@@ -114,6 +117,7 @@ BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur){
 }
 
 BiblioH* supprimer_livre_h(BiblioH* b, int num,char* titre,char* auteur){
+/*Nous pouvons rapidement reduire notre recherche a l'indice calcule a partir du nom de l'auteur*/
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
     if(parcours==NULL){
@@ -133,7 +137,6 @@ BiblioH* supprimer_livre_h(BiblioH* b, int num,char* titre,char* auteur){
         parcours->suivant= parcours->suivant->suivant;
         liberer_livre_h(temp);
         b->nE--;
-        return b;
     }
     return b;
 }
