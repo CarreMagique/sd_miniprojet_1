@@ -13,6 +13,7 @@ LivreH* creer_livre_h(int num,char* titre,char* auteur) {
     LivreH *l=(LivreH *)malloc(sizeof(LivreH));
     assert(l);
     l->num=num;
+    //Nous utilisons strdup() pour etre sur que le pointeur vers la chaine de caractere est unique
     l->titre=strdup(titre);
     l->auteur=strdup(auteur);
     l->clef=fonctionClef(l->auteur);
@@ -32,6 +33,7 @@ BiblioH* creer_biblio_h(int m) {
     b->m=m;
     b->nE=0;
     b->T=(LivreH **)malloc(sizeof(LivreH *)*b->m);
+    //Nous initialisons le tableau a NULL pour eviter des comportements inattendus
     for(int i=0; i<b->m; i++) {
         b->T[i]=NULL;
     }
@@ -101,8 +103,10 @@ LivreH* rechercher_titre_h(BiblioH* b, char *titre) {
 
 BiblioH* rechercher_auteur_h(BiblioH* b, char* auteur){
     BiblioH* r = creer_biblio_h(1);
-/*Avec le nom de l'auteur, nous pouvons trouver beaucoup plus rapidemeent l'ensemble de ses livres*/
-/*Il faut tout de même vérifier que ces livres ont le bon auteur, car la table ayant une taille limitee peut avoir plusieurs auteur au meme indice*/
+/*
+Avec le nom de l'auteur, nous pouvons trouver beaucoup plus rapidemeent l'ensemble de ses livres
+Il faut tout de même vérifier que ces livres ont le bon auteur, car la table ayant une taille limitee peut avoir plusieurs auteur au meme indice
+*/
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
     
@@ -120,29 +124,37 @@ BiblioH* supprimer_livre_h(BiblioH* b, int num,char* titre,char* auteur){
 /*Nous pouvons rapidement reduire notre recherche a l'indice calcule a partir du nom de l'auteur*/
     int h=fonctionHachage(fonctionClef(auteur),b->m);
     LivreH* parcours = b->T[h];
+    
     if(parcours==NULL){
         return b;
     }
+    
     if(parcours->num!=num && strcmp(parcours->titre, titre)==0){
         b->T[h] = parcours->suivant;
         liberer_livre_h(parcours);
         b->nE--;
         return b;
     }
+    
     while(parcours->suivant!=NULL && parcours->suivant->num!=num && strcmp(parcours->suivant->titre, titre)!=0){
         parcours = parcours->suivant;
     }
+    
     if(parcours->suivant){
         LivreH* temp = parcours->suivant;
         parcours->suivant= parcours->suivant->suivant;
         liberer_livre_h(temp);
         b->nE--;
     }
+    
     return b;
 }
 
 BiblioH* fusion_h(BiblioH *b1, BiblioH *b2) {
-        
+/*
+La fonction inserer() s'occupe de creer les nouvelles cles pour la table de hachage
+Il suffit donc d'inserer tous les livres de b2 dans b1
+*/
     for(int i=0; i<b2->m;i++) {
         LivreH* l = b2->T[i];
         while(l){
@@ -150,6 +162,7 @@ BiblioH* fusion_h(BiblioH *b1, BiblioH *b2) {
             l = l->suivant;
         }
     }
+    
     liberer_biblio_h(b2);
     return b1;
 }
@@ -157,12 +170,16 @@ BiblioH* fusion_h(BiblioH *b1, BiblioH *b2) {
 BiblioH* recherche_multiples_h(BiblioH *b) {
     BiblioH *bib = creer_biblio_h(b->m);
     int unique=1;
-
+/*
+Il faut parcourir toute la table, mais l'auteur definissant la cle,
+Nous n'avons pas besoin de comparer diffents les listes de differents indices
+*/
     for(int i = 0; i<b->m; i++){
         LivreH* l = b->T[i];
         unique=1;
         while(l){
             LivreH *l2=l->suivant;
+            
             while(l2) {
                 if(strcmp(l->titre,l2->titre)==0 && strcmp(l->auteur,l2->auteur)==0) {
                     inserer(bib,l2->num,l2->titre,l2->auteur);
@@ -174,6 +191,8 @@ BiblioH* recherche_multiples_h(BiblioH *b) {
                     l2=l2->suivant;
                 }
             }
+            
+            //S'il n'est pas unique, alors il faut aussi ajouter l
             if(unique==0) {
                 inserer(bib,l->num,l->titre,l->auteur);
             }
