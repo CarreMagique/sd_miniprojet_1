@@ -15,13 +15,6 @@ Biblio* charger_n_entrees(char* nomfic, int n) {
         inserer_en_tete(b,num,titre,auteur);
         i++;
     }
-    
-    /*/
-    while(i!=n && fscanf(f, "%d %19s %19s \n", &num, titre, auteur)) {
-        inserer_en_tete(b,num,titre,auteur);
-        i++;
-    }
-    */
     fclose(f);
     return b;
 }
