@@ -1,4 +1,5 @@
 #include "entreeSortieLC.h"
+#include <assert.h>
 #include <stdio.h>
 
 Biblio* charger_n_entrees(char* nomfic, int n) {
@@ -21,6 +22,7 @@ Biblio* charger_n_entrees(char* nomfic, int n) {
 
 void enregistrer_biblio(Biblio *b, char* nomfic){
     FILE* f = fopen(nomfic, "w");
+    assert(f);
     Livre* l = b->L;
 
     while(l){
