@@ -1,35 +1,43 @@
 #include "biblioLC.h"
-
+//Permet de créer le livre, a partir du nom, titre ainsi que de l'auteur
 Livre* creer_livre(int num, char* titre, char* auteur){
     Livre* l = malloc(sizeof(Livre));
     assert(l);
     l->num = num;
+    //On n'oublie pas de copier le titre et l'auteur qui sont deux chaines de carctères potentiellement désallouées à la fin de l'appel
     l->titre = strdup(titre);
     l->auteur = strdup(auteur);
     return l;
 }
 
 void liberer_livre(Livre* l) {
+    //En conséquence, on libère les deux chaines de caractères précédemment allouées par strdup dans creer_livre
     free(l->titre);
     free(l->auteur);
     free(l);
 }
-
+//Permet de créer une bibliothèque qui est une liste chaînée de livres
 Biblio* creer_biblio(){
     Biblio* b = malloc(sizeof(Biblio));
+    //On vérifie par assert que b n'est pas nulle, c'est à dire que l'allocation s'est bien passée
     assert(b);
+    //On initialise la tete de liste à NULL
     b->L = NULL;
     return b;
 }
 
 void liberer_biblio(Biblio* b) {
+    //On crée une variable de parcours L qui sera successivement égale à tous les livres de la bibliothèque (afin de les libérer)
     Livre *l=b->L;
     Livre *temp=l;
     while(l) {
+        //Temp sert de variable intermédiaire pour pouvoir libérer l'espace mémoire après être passé au suivant
         temp=l;
         l=l->suiv;
+        //On appelle la fonction précédemment définie afin de libérer livre
         liberer_livre(temp);
     }
+    //On oublie pas de libérer la structure de donnée bibliothèque en plus des livres
     free(b);
 }
 
