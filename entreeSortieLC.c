@@ -1,4 +1,5 @@
 #include "entreeSortieLC.h"
+#include <assert.h>
 #include <stdio.h>
 
 Biblio* charger_n_entrees(char* nomfic, int n) {
@@ -15,19 +16,13 @@ Biblio* charger_n_entrees(char* nomfic, int n) {
         inserer_en_tete(b,num,titre,auteur);
         i++;
     }
-    
-    /*/
-    while(i!=n && fscanf(f, "%d %19s %19s \n", &num, titre, auteur)) {
-        inserer_en_tete(b,num,titre,auteur);
-        i++;
-    }
-    */
     fclose(f);
     return b;
 }
 
 void enregistrer_biblio(Biblio *b, char* nomfic){
     FILE* f = fopen(nomfic, "w");
+    assert(f);
     Livre* l = b->L;
 
     while(l){

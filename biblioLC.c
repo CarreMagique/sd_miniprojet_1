@@ -80,6 +80,7 @@ Biblio* supprimer_livre(Biblio* b, int num,char* titre,char* auteur){
     if(!parcours){
         return b;
     }
+/*Nous regardons d'abord si la tete correspond au livre recherche, car elle ne sera pas regardee dans la boucle*/
     if(parcours->num!=num && strcmp(parcours->titre, titre)==0 && strcmp(parcours->auteur, auteur) ==0){
         b->L = parcours->suiv;
         liberer_livre(parcours);
@@ -126,6 +127,7 @@ Biblio* recherche_multiples(Biblio *b) {
                 l2=l2->suiv;
             }
         }
+        /*S'il n'est pas unique, alors il faut aussi ajouter l, car il n'est pas compare à lui-meme*/
         if(unique==0) {
             inserer_en_tete(bib,l->num,l->titre,l->auteur);
         }

@@ -2,6 +2,7 @@
 
 BiblioH* charger_n_entrees_h(char* nomfic, int n) {
     FILE *f = fopen(nomfic, "r");
+    assert(f);
     char buffer[100];
     char titre[40];
     char auteur[40];
@@ -24,6 +25,7 @@ void affichage_livre_h(LivreH* l){
 
 void enregistrer_biblio_h(BiblioH *b, char* nomfic){
     FILE* f = fopen(nomfic, "w");
+    assert(f);
     LivreH* l;
 
     for(int i=0;i<b->m;i++) {
