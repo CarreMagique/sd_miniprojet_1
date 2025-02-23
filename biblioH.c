@@ -3,6 +3,7 @@
 int fonctionClef(char* auteur) {
     int taille=strlen(auteur);
     int tot=0;
+    //Nous sommons les valeurs ASCII des lettres composant auteur
     for(int i=0; i<taille;i++) {
         tot+=auteur[i];
     }

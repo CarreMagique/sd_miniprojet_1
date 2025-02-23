@@ -1,5 +1,7 @@
 #include "biblioLC.h"
 #include "entreeSortieLC.h"
+#include <stdio.h>
+
 void menu(){
     printf("0-sortie du programme\n");
     printf("1-Affichage\n");

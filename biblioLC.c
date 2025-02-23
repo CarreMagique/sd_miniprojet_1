@@ -66,7 +66,7 @@ Livre* rechercher_titre(Livre* l, char *titre) {
     if(l) {return l;}
     return NULL;
 }
-//Permet de rechercher un livre avec un titre précis
+//Permet de rechercher tous les livres d'un auteur précis
 Biblio* rechercher_auteur(Biblio* b, char* auteur){
     //Dans ce cas il faut renvoyer une bibliothèque comme le livre n'est pas unique. La bibliothèque contiendra tous les livres de l'auteur recherché
     Biblio* r = creer_biblio();
